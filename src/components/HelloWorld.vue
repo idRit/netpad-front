@@ -22,12 +22,29 @@
       <v-flex xs12 sm12 md12>
 
       <v-alert
-        :value="errmsg"
+        v-model="errmsg"
         type="error"
         dismissible
       >
         Note not found
       </v-alert>
+
+      <v-alert
+        v-model="saved"
+        type="success"
+        dismissible  
+      >
+        Note Saved
+      </v-alert>
+
+      <v-alert
+        v-model="deled"
+        type="success"
+        dismissible  
+      >
+        Note Deleted
+      </v-alert>
+
      
       </v-flex>
       <v-flex xs12 sm12 md12>
@@ -57,7 +74,9 @@
       return({
         sub: "",
         cont: "",
-        errmsg: false
+        errmsg: false,
+        saved: false,
+        deled: false
       })
     },  
     methods: {
@@ -76,6 +95,7 @@
             "Content" : this.cont
           }).then((response) => {
             console.log(response)
+            this.saved = true;
           })
         }
 
@@ -96,6 +116,7 @@
             if (response.data.operation === "successful") {
               this.sub = '';
               this.cont = '';
+              this.deled = true;
             } else {
               this.errmsg = true;
             }
