@@ -17,6 +17,7 @@
           label="Solo textarea"
           value=""
           placeholder="Content"
+          rows="18"
         ></v-textarea>
       </v-flex>
       <v-flex xs12 sm12 md12>
@@ -165,5 +166,6 @@
   width: 100%;
   color: white;
   text-align: center;
+  background-color: white;
 }
 </style>
