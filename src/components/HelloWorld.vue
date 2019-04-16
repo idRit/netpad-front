@@ -6,7 +6,9 @@
             label="tfone"
             placeholder="Title"
             solo
-          ></v-text-field>
+            style="font-size: 18pt; font-weight:bold;"
+          >
+          </v-text-field>
       </v-flex>
 
       <v-flex xs12 sm12 md12>
