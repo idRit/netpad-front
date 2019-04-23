@@ -6,24 +6,18 @@
             label="tfone"
             placeholder="Title"
             solo
-            style="font-size: 18pt; font-weight:bold;"
           >
           </v-text-field>
       </v-flex>
 
       <v-flex xs12 sm12 md12>
-        <v-textarea
+        <vue-editor 
           v-model="cont"
-          solo
-          name="input-7-4"
-          label="Solo textarea"
-          value=""
-          placeholder="Content"
-          rows="18"
-        ></v-textarea>
+          rows=18>
+        </vue-editor>
       </v-flex>
-      <v-flex xs12 sm12 md12>
 
+      <v-flex xs12 sm12 md12>
       <v-alert
         v-model="errmsg"
         type="error"
@@ -72,14 +66,26 @@
 </template>
 
 <script>
+  //import VueEditor from 'vue2-editor'
+  import { VueEditor } from 'vue2-editor'
   export default {
+    components: {
+      VueEditor
+    },
     data: () => {
       return({
         sub: "",
         cont: "",
         errmsg: false,
         saved: false,
-        deled: false
+        deled: false,
+        content: {
+            ops: [],
+        },
+        config: {
+            readOnly: true,
+            placeholder: 'Compose an epic...',
+        },
       })
     },  
     methods: {
