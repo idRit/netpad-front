@@ -66,7 +66,6 @@
 </template>
 
 <script>
-  //import VueEditor from 'vue2-editor'
   import { VueEditor } from 'vue2-editor'
   export default {
     components: {
@@ -78,20 +77,14 @@
         cont: "",
         errmsg: false,
         saved: false,
-        deled: false,
-        content: {
-            ops: [],
-        },
-        config: {
-            readOnly: true,
-            placeholder: 'Compose an epic...',
-        },
+        deled: false
       })
     },  
     methods: {
       save: function(event) {
         if (this.validate()) {
           let subject = this.sub;
+          subject = subject.toLowerCase()
           if (/\s/g.test(subject)) {
             subject = subject.split(/[ ,]+/).join('_')
           }
@@ -112,6 +105,7 @@
       del: function(event) {
         if (this.validate()) {
           let subject = this.sub;
+          subject = subject.toLowerCase()
           if (/\s/g.test(subject)) {
             subject = subject.split(/[ ,]+/).join('_')
           }
@@ -136,6 +130,7 @@
       view: function(event) {
         if (this.validate()) {
           let subject = this.sub
+          subject = subject.toLowerCase()
           if (/\s/g.test(subject)) {
             subject = subject.split(/[ ,]+/).join('_')
           }
