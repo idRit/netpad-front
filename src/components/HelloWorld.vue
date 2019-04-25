@@ -13,7 +13,7 @@
       <v-flex xs12 sm12 md12>
         <vue-editor 
           v-model="cont"
-          rows=18>
+        >
         </vue-editor>
       </v-flex>
 
