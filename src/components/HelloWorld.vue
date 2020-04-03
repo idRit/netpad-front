@@ -92,7 +92,7 @@
               "Subject" : subject,
               "Content" : this.cont
           })
-          this.axios.post('https://netpad-api.herokuapp.com/api/postNote', {
+          this.axios.post('http://3.15.210.66:3003/api/postNote', {
             "Subject" : subject,
             "Content" : this.cont
           }).then((response) => {
@@ -113,7 +113,7 @@
               "Subject" : subject,
               "Content" : this.cont
           })
-          this.axios.delete('https://netpad-api.herokuapp.com/api/getNote/'+subject)
+          this.axios.delete('http://3.15.210.66:3003/api/getNote/'+subject)
           .then((response) => {
             console.log(response)
             if (response.data.operation === "successful") {
@@ -138,7 +138,7 @@
               "Subject" : subject,
               "Content" : this.cont
           })
-          this.axios.get('https://netpad-api.herokuapp.com/api/getNote/'+subject)
+          this.axios.get('http://3.15.210.66:3003/api/getNote/'+subject)
           .then((response) => {
             console.log(response)
             if (response.data.operation == "note not found") {
