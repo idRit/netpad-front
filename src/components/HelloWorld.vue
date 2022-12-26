@@ -1,164 +1,151 @@
 <template>
   <v-container>
-      <v-flex xs12 sm12 md12>
-          <v-text-field
-            v-model="sub"
-            label="tfone"
-            placeholder="Title"
-            solo
-          >
-          </v-text-field>
-      </v-flex>
+    <v-flex xs12 sm12 md12>
+      <v-text-field v-model="sub" label="tfone" placeholder="Title" solo>
+      </v-text-field>
+    </v-flex>
 
-      <v-flex xs12 sm12 md12>
-        <vue-editor 
-          v-model="cont"
-        >
-        </vue-editor>
-      </v-flex>
+    <v-flex xs12 sm12 md12>
+      <vue-editor v-model="cont"> </vue-editor>
+    </v-flex>
 
-      <v-flex xs12 sm12 md12>
-      <v-alert
-        v-model="errmsg"
-        type="error"
-        dismissible
-      >
+    <v-flex xs12 sm12 md12>
+      <v-alert v-model="errmsg" type="error" dismissible>
         Note not found
       </v-alert>
 
-      <v-alert
-        v-model="saved"
-        type="success"
-        dismissible  
-      >
-        Note Saved
-      </v-alert>
+      <v-alert v-model="saved" type="success" dismissible> Note Saved </v-alert>
 
-      <v-alert
-        v-model="deled"
-        type="success"
-        dismissible  
-      >
+      <v-alert v-model="deled" type="success" dismissible>
         Note Deleted
       </v-alert>
-
-     
-      </v-flex>
-      <v-flex xs12 sm12 md12>
-        <div class="footer">
-          <v-btn color="warning" 
-          v-on:click="del" 
-          :disabled="((typeof this.sub === 'undefined'|| this.sub === ''))">
+    </v-flex>
+    <v-flex xs12 sm12 md12>
+      <div class="footer">
+        <v-btn
+          color="warning"
+          v-on:click="del"
+          :disabled="typeof this.sub === 'undefined' || this.sub === ''"
+        >
           Delete
-          </v-btn>
-          <v-btn color="success" 
-          :disabled="((typeof this.sub === 'undefined'|| this.sub === '') || (typeof this.cont === 'undefined'|| this.cont === ''))"
+        </v-btn>
+        <v-btn
+          color="success"
+          :disabled="
+            typeof this.sub === 'undefined' ||
+            this.sub === '' ||
+            typeof this.cont === 'undefined' ||
+            this.cont === ''
+          "
           v-on:click="save"
-          >Save</v-btn>
-          <v-btn color="info" 
+          >Save</v-btn
+        >
+        <v-btn
+          color="info"
           v-on:click="view"
-          :disabled="((typeof this.sub === 'undefined'|| this.sub === ''))"
-          >View</v-btn>
-        </div>
-      </v-flex>
-
+          :disabled="typeof this.sub === 'undefined' || this.sub === ''"
+          >View</v-btn
+        >
+      </div>
+    </v-flex>
   </v-container>
 </template>
 
 <script>
-  import { VueEditor } from 'vue2-editor'
-  export default {
-    components: {
-      VueEditor
-    },
-    data: () => {
-      return({
-        sub: "",
-        cont: "",
-        errmsg: false,
-        saved: false,
-        deled: false
-      })
-    },  
-    methods: {
-      save: function(event) {
-        if (this.validate()) {
-          let subject = this.sub;
-          subject = subject.toLowerCase()
-          if (/\s/g.test(subject)) {
-            subject = subject.split(/[ ,]+/).join('_')
-          }
-          console.log({
-              "Subject" : subject,
-              "Content" : this.cont
-          })
-          this.axios.post('https://netpad-api.herokuapp.com/api/postNote', {
-            "Subject" : subject,
-            "Content" : this.cont
-          }).then((response) => {
-            console.log(response)
-            this.saved = true;
-          })
+import { VueEditor } from "vue2-editor";
+export default {
+  components: {
+    VueEditor,
+  },
+  data: () => {
+    return {
+      sub: "",
+      cont: "",
+      errmsg: false,
+      saved: false,
+      deled: false,
+      apiBaseUrl: ""
+    };
+  },
+  methods: {
+    save: function (event) {
+      if (this.validate()) {
+        let subject = this.sub;
+        subject = subject.toLowerCase();
+        if (/\s/g.test(subject)) {
+          subject = subject.split(/[ ,]+/).join("_");
         }
-
-      }, 
-      del: function(event) {
-        if (this.validate()) {
-          let subject = this.sub;
-          subject = subject.toLowerCase()
-          if (/\s/g.test(subject)) {
-            subject = subject.split(/[ ,]+/).join('_')
-          }
-          console.log({
-              "Subject" : subject,
-              "Content" : this.cont
+        console.log({
+          Subject: subject,
+          Content: this.cont,
+        });
+        this.axios
+          .post(`${this.apiBaseUrl}/api/postNote`, {
+            Subject: subject,
+            Content: this.cont,
           })
-          this.axios.delete('https://netpad-api.herokuapp.com/api/getNote/'+subject)
           .then((response) => {
-            console.log(response)
+            console.log(response);
+            this.saved = true;
+          });
+      }
+    },
+    del: function (event) {
+      if (this.validate()) {
+        let subject = this.sub;
+        subject = subject.toLowerCase();
+        if (/\s/g.test(subject)) {
+          subject = subject.split(/[ ,]+/).join("_");
+        }
+        console.log({
+          Subject: subject,
+          Content: this.cont,
+        });
+        this.axios
+          .delete(`${this.apiBaseUrl}/api/getNote/` + subject)
+          .then((response) => {
+            console.log(response);
             if (response.data.operation === "successful") {
-              this.sub = '';
-              this.cont = '';
+              this.sub = "";
+              this.cont = "";
               this.deled = true;
             } else {
               this.errmsg = true;
             }
-          })
+          });
+      }
+    },
+    view: function (event) {
+      if (this.validate()) {
+        let subject = this.sub;
+        subject = subject.toLowerCase();
+        if (/\s/g.test(subject)) {
+          subject = subject.split(/[ ,]+/).join("_");
         }
-
-      }, 
-      view: function(event) {
-        if (this.validate()) {
-          let subject = this.sub
-          subject = subject.toLowerCase()
-          if (/\s/g.test(subject)) {
-            subject = subject.split(/[ ,]+/).join('_')
-          }
-          console.log({
-              "Subject" : subject,
-              "Content" : this.cont
-          })
-          this.axios.get('https://netpad-api.herokuapp.com/api/getNote/'+subject)
+        console.log({
+          Subject: subject,
+          Content: this.cont,
+        });
+        this.axios
+          .get(`${this.apiBaseUrl}/api/getNote/` + subject)
           .then((response) => {
-            console.log(response)
+            console.log(response);
             if (response.data.operation == "note not found") {
               this.errmsg = true;
-            }
-            else {
+            } else {
               this.cont = response.data.Content;
             }
-          })
-        }
-
-      }, 
-      validate: function() {
-        if ((typeof this.sub === 'undefined'|| this.sub === '')) {
-          return false;
-        }
-        return true;
+          });
       }
-    }
-  }
+    },
+    validate: function () {
+      if (typeof this.sub === "undefined" || this.sub === "") {
+        return false;
+      }
+      return true;
+    },
+  },
+};
 </script>
 
 <style>
