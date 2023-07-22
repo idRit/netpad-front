@@ -64,7 +64,7 @@ export default {
       errmsg: false,
       saved: false,
       deled: false,
-      apiBaseUrl: ""
+      apiBaseUrl: "https://api.netpad.click",
     };
   },
   methods: {

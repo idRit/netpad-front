@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-sw.js");
 
 importScripts(
-  "/precache-manifest.a87688c793680e685aebfd4ed45500a6.js"
+  "/precache-manifest.ffb54ac48177b6a82740967433ea8f45.js"
 );
 
 workbox.core.setCacheNameDetails({prefix: "netpad-front"});
